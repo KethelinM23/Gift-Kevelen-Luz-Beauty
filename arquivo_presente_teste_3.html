@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Presente para Você</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Alex+Brush&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Cor de fundo rosa nude igual ao vídeo */
+            background-color: #F8EBEF; 
+            color: #4A3B38; /* Marrom bem escuro/acinzentado para o texto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container simulando a tela do celular */
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 850px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        /* Telas */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 0;
+            pointer-events: none; /* Desativa cliques quando invisível */
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto; /* Reativa cliques */
+            z-index: 10;
+        }
+
+        /* --- ESTILOS DA TELA 1 (LAÇO) --- */
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            margin-bottom: 50px;
+            position: absolute;
+            top: 60px;
+        }
+
+        .toque-descubra {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .img-laco {
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 20px 0;
+            /* Filtro para dar um tom mais dourado caso use uma imagem simples */
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+        }
+
+        .img-laco:hover {
+            transform: scale(1.05);
+        }
+
+        .frase-efeito {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-top: 30px;
+        }
+
+        .frase-destaque {
+            font-family: 'Alex Brush', cursive; /* Fonte cursiva elegante */
+            font-size: 38px;
+            color: #C59B6D; /* Dourado */
+            margin-top: -10px;
+        }
+
+        .dica-clique {
+            position: absolute;
+            bottom: 40px;
+            font-size: 11px;
+            background: rgba(255,255,255,0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            color: #666;
+        }
+
+        /* --- ESTILOS DA TELA 2 (VOUCHER) --- */
+        .voucher-title {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            color: #4A3B38;
+            line-height: 1.2;
+        }
+
+        .voucher-subtitle {
+            font-family: 'Alex Brush', cursive;
+            font-size: 32px;
+            color: #C59B6D;
+            margin-top: -10px;
+            margin-bottom: 40px;
+        }
+
+        .voucher-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .info-box {
+            width: 100%;
+            border-top: 1px solid #E0D0D4;
+            border-bottom: 1px solid #E0D0D4;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            letter-spacing: 1px;
+            color: #887875;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #4A3B38;
+        }
+
+        /* Botão Elegante */
+        .btn-resgatar {
+            display: inline-block;
+            width: 100%;
+            padding: 18px 0;
+            background-color: #E2C7D1; /* Rosa mais escuro/fechado */
+            color: #4A3B38;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .btn-resgatar:hover {
+            background-color: #D4B4C0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="tela1" class="screen active">
+            <div class="logo-text">Kevelen Luz Beauty</div>
+            
+            <div class="toque-descubra">Toque e Descubra</div>
+            
+            <img src="laco.png.png" alt="Laço de Presente" class="img-laco" id="botao-laco">
+            
+            <div class="frase-efeito">VOCÊ É UMA</div>
+            <div class="frase-destaque">CLiente de OURO</div>
+
+            <div class="dica-clique">Toque no laço para abrir ✨</div>
+        </div>
+
+        <div id="tela2" class="screen">
+            <h1 class="voucher-title">VALE PRESENTE</h1>
+            <div class="voucher-subtitle">for you</div>
+            
+            <p class="voucher-desc">
+                VOCÊ ACABA DE RECEBER UM VOUCHER EXCLUSIVO PARA USAR COMO QUISER.
+            </p>
+
+            <div class="info-box">
+                <div class="info-item">
+                    <span class="info-label">VALOR:</span>
+                    <span class="info-value">R$ 150,00</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">VÁLIDO ATÉ:</span>
+                    <span class="info-value">31/12/2026</span>
+                </div>
+            </div>
+
+            <a href="https://wa.me/554184797694?text=Oiii!%20Acabei%20de%20abrir%20meu%20presente%20e%20quero%20resgatar%20meu%20vale!%20%E2%9C%A8" class="btn-resgatar" target="_blank">
+                CLIQUE AQUI PARA RESGATAR
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Lógica de transição suave entre as telas
+        const laco = document.getElementById('botao-laco');
+        const tela1 = document.getElementById('tela1');
+        const tela2 = document.getElementById('tela2');
+
+        laco.addEventListener('click', function() {
+            // Tira a classe 'active' da tela 1 (faz ela sumir suavemente)
+            tela1.classList.remove('active');
+            
+            // Espera meio segundo e faz a tela 2 aparecer suavemente
+            setTimeout(() => {
+                tela2.classList.add('active');
+            }, 500);
+        });
+    </script>
+
+</body>
+</html>
