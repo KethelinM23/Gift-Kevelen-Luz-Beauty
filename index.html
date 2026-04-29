@@ -231,7 +231,7 @@
             <div class="info-box">
                 <div class="info-item">
                     <span class="info-label">VALOR:</span>
-                    <span class="info-value">R$ 150,00</span>
+                    <span class="info-value" id="valor-presente">A definir</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">VÁLIDO ATÉ:</span>
@@ -239,7 +239,7 @@
                 </div>
             </div>
 
-            <a href="https://wa.me/554184797694?text=Oiii!%20Acabei%20de%20abrir%20meu%20presente%20e%20quero%20resgatar%20meu%20vale!%20%E2%9C%A8" class="btn-resgatar" target="_blank">
+            <a href="https://wa.me/554184797694" class="btn-resgatar" id="btn-wpp" target="_blank">
                 CLIQUE AQUI PARA RESGATAR
             </a>
         </div>
@@ -257,7 +257,29 @@
             tela1.classList.remove('active');
             
             // Espera meio segundo e faz a tela 2 aparecer suavemente
-            setTimeout(() => {
+            setTimeout(() => {// --- NOVA LÓGICA DO VALOR DINÂMICO ---
+        // Pega os parâmetros da URL (ex: ?valor=50)
+        const urlParams = new URLSearchParams(window.location.search);
+        const valorPersonalizado = urlParams.get('valor');
+
+        // Seleciona os elementos que vamos alterar
+        const elementoValor = document.getElementById('valor-presente');
+        const botaoWpp = document.getElementById('btn-wpp');
+        const numeroIrma = "554184797694"; // Número que já estava no seu código
+
+        // Se a sua irmã mandou um valor na URL, a gente atualiza a tela
+        if (valorPersonalizado) {
+            // Atualiza o texto na tela
+            elementoValor.innerText = `R$ ${valorPersonalizado}`;
+            
+            // Atualiza o link do WhatsApp para já ir com o valor que a pessoa ganhou!
+            const textoWpp = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale de R$ ${valorPersonalizado}! ✨`;
+            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoWpp)}`;
+        } else {
+            // Se abrir sem valor, deixa uma mensagem padrão no botão
+            const textoPadrao = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale! ✨`;
+            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoPadrao)}`;
+        }
                 tela2.classList.add('active');
             }, 500);
         });
