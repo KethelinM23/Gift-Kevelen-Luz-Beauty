@@ -247,39 +247,32 @@
     </div>
 
     <script>
-        // Lógica de transição suave entre as telas
+        // --- NOVA LÓGICA DO VALOR DINÂMICO ---
+        // Isso fica fora do clique, para carregar assim que a página abre!
+        const urlParams = new URLSearchParams(window.location.search);
+        const valorPersonalizado = urlParams.get('valor');
+
+        const elementoValor = document.getElementById('valor-presente');
+        const botaoWpp = document.getElementById('btn-wpp');
+        const numeroIrma = "554184797694"; 
+
+        if (valorPersonalizado) {
+            elementoValor.innerText = `R$ ${valorPersonalizado}`;
+            const textoWpp = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale de R$ ${valorPersonalizado}! ✨`;
+            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoWpp)}`;
+        } else {
+            const textoPadrao = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale! ✨`;
+            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoPadrao)}`;
+        }
+
+        // --- LÓGICA DA ANIMAÇÃO DO LAÇO ---
         const laco = document.getElementById('botao-laco');
         const tela1 = document.getElementById('tela1');
         const tela2 = document.getElementById('tela2');
 
         laco.addEventListener('click', function() {
-            // Tira a classe 'active' da tela 1 (faz ela sumir suavemente)
             tela1.classList.remove('active');
-            
-            // Espera meio segundo e faz a tela 2 aparecer suavemente
-            setTimeout(() => {// --- NOVA LÓGICA DO VALOR DINÂMICO ---
-        // Pega os parâmetros da URL (ex: ?valor=50)
-        const urlParams = new URLSearchParams(window.location.search);
-        const valorPersonalizado = urlParams.get('valor');
-
-        // Seleciona os elementos que vamos alterar
-        const elementoValor = document.getElementById('valor-presente');
-        const botaoWpp = document.getElementById('btn-wpp');
-        const numeroIrma = "554184797694"; // Número que já estava no seu código
-
-        // Se a sua irmã mandou um valor na URL, a gente atualiza a tela
-        if (valorPersonalizado) {
-            // Atualiza o texto na tela
-            elementoValor.innerText = `R$ ${valorPersonalizado}`;
-            
-            // Atualiza o link do WhatsApp para já ir com o valor que a pessoa ganhou!
-            const textoWpp = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale de R$ ${valorPersonalizado}! ✨`;
-            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoWpp)}`;
-        } else {
-            // Se abrir sem valor, deixa uma mensagem padrão no botão
-            const textoPadrao = `Oiii! Acabei de abrir meu presente e quero resgatar meu vale! ✨`;
-            botaoWpp.href = `https://wa.me/${numeroIrma}?text=${encodeURIComponent(textoPadrao)}`;
-        }
+            setTimeout(() => {
                 tela2.classList.add('active');
             }, 500);
         });
